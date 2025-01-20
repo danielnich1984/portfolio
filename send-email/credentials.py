@@ -1,0 +1,2 @@
+smtpuser = ""
+smtppassword = ""

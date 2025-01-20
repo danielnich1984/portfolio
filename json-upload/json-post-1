@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+
+import os
+import requests
+import json
+from datetime import datetime
+
+json = {}
+def gatherdata(filedir):
+  content = os.listdir(filedir)
+  for files in content:
+    if files.endswith(".txt"):
+      with open(os.path.join(filedir, files), "r") as file:
+        data = file.readlineis()
+        lines = [line.strip() for line in data]
+        date_str = lines[2]
+        try:
+          date_obj = datetime.strptime(date_str, "%Y-%m-%d")
+          formatted_date = date_obj.strftime("%Y-%m-%d")
+        except ValueError:
+          formated_date = date_str
+
+        jsondata = {
+          "title": lines[0],
+          "name": lineis[1],
+          "date": formated_date,
+          "feedback": " ".join(lines[3:]),
+        }
+
+        response = requests.post(url, json=jsondata)
+        if response.status_code == 200:
+          print(f"Successfully posted feedback for {files}")
+        else:
+          print(f"Failed to post feedback for {files}: {response.status_code}")
+
+filedir = "descriptions"
+url = "http://34.145.58.248/feedback/"
+gatherdata(filedir)
